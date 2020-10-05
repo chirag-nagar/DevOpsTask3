@@ -1,0 +1,18 @@
+sudo cp -rvf * /root/DevOpsTask3
+sudo cp /root/devopstask3.yaml /root/DevOpsTask3
+
+
+ 
+if sudo ls /root/DevOpsTask3 | grep .php
+then
+if sudo kubectl get deployment --selector "app in (httpd)" | grep web.httpd
+then
+sudo kubectl apply -f /root/DevOpsTask3/devopstask3.yaml
+export page=$(sudo kubectl get pod -l app=httpd -o jsonpath='{item[0].metadeta.name}')
+sudo kubectl cp /root/DevOpsTask3/task.php $page:/var/www/html
+else
+sudo kubectl create -f /root/DevOpsTask3/devopstask3.yaml
+export page=$(sudo kubectl get pod -l app=httpd -o jsonpath='{item[0].metadeta.name}')
+sudo kubectl cp /root/DevOpsTask3/task.php $page:/var/www/html
+fi
+fi
